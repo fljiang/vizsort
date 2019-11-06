@@ -11,7 +11,7 @@ import {
     VerticalBarSeries
 } from 'react-vis';
 
-import { getGridData } from '../redux/selectors';
+import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
 
 class GridCanvas extends Component {
     constructor(props) {
@@ -35,14 +35,16 @@ class GridCanvas extends Component {
             clientWidth,
             clientHeight,
             gridData
-        })
+        });
+        this.forceUpdate();
     }
 
     shouldComponentUpdate(newProps, state) {
-        const oldGridData = this.state.gridData;
+        const oldGridData = this.props.gridData;
         const { gridData } = newProps;
-        // console.log(`OLD GRID: ${JSON.stringify(oldGridData)}`);
-        if (oldGridData !== gridData) {
+        const oldNumGridDataUpdated = this.props.numGridDataUpdated;
+        const { numGridDataUpdated } = newProps;
+        if (numGridDataUpdated !== oldNumGridDataUpdated ) {
             this.setState({
                 gridData
             });
@@ -57,6 +59,7 @@ class GridCanvas extends Component {
             clientHeight,
             gridData
         } = this.state;
+        console.log(gridData);
         return (
             <Wrapper ref={this.gridWrap}>
                 <XYPlot
@@ -77,7 +80,8 @@ const Wrapper = styled.div`
 
 const mapStateToProps = state => {
     const gridData = getGridData(state);
-    return { gridData };
+    const numGridDataUpdated = getNumGridDataUpdated(state);
+    return { numGridDataUpdated, gridData };
 }
 
 export default connect(mapStateToProps)(GridCanvas);

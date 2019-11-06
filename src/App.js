@@ -25,9 +25,9 @@ export default class App extends Component {
             <GridCanvas></GridCanvas>
           </Grid>
         </Container>
-        <SideBarWrapper>
+        {/* <SideBarWrapper>
           <SideBar></SideBar>
-        </SideBarWrapper> 
+        </SideBarWrapper>  */}
       </Wrapper>
     );
   }

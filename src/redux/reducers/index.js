@@ -1,17 +1,18 @@
 const initialState = {
     gridSize: 12,
     gridData: [
-      {x: 0, y: 8},
+      {x: 0, y: 2},
       {x: 1, y: 5},
       {x: 2, y: 4},
-      {x: 3, y: 9},
+      {x: 3, y: 6},
       {x: 4, y: 1},
       {x: 5, y: 7},
-      {x: 6, y: 6},
+      {x: 6, y: 8},
       {x: 7, y: 3},
-      {x: 8, y: 2},
-      {x: 9, y: 0}
-    ]
+      {x: 8, y: 0},
+      {x: 9, y: 9}
+    ],
+    numGridDataUpdated: 0, // keeps track of number of times the data was changed
 }
 
 export default (state = initialState, action) => {
@@ -29,7 +30,8 @@ export default (state = initialState, action) => {
       case 'SET_GRID_DATA':
         // console.log('New Grid data received');
         return Object.assign({}, state, {
-          gridData: action.payload || []
+          gridData: action.payload || [],
+          numGridDataUpdated: ++state.numGridDataUpdated
         })
       default:
         return state

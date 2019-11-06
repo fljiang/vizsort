@@ -18,16 +18,22 @@ class Navigation extends Component {
         super(props);
         this.state = {
             gridSize: 12,
-            numEventClicks: 0
+            numEventClicks: 0,
+            gridData: [],
+            gridDataLength: 0,
+            itemsRemoved: 0,
+            i: 0,
+            j: 0
         }
         this.grid_change = this.grid_change.bind(this)
         this.handleGridSizeChange = this.handleGridSizeChange.bind(this)
 
     }
 
-    pause(milliseconds) {
-        var dt = new Date();
-        while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+    componentDidMount() {
+        this.setState({
+            gridDataLength: this.props.gridData.length
+        })
     }
 
     handleGridSizeChange = () => {
@@ -39,28 +45,38 @@ class Navigation extends Component {
     }
 
     handleResetGrid = () => {
-        const { gridData } = this.props;
-        let numEventClicks = this.state.numEventClicks;
-        let numOfClicks = 5;
-        let newGridData = gridData.map((tup) => {
-            return {
-               x: tup.x,
-               y: --tup.y
-            }
-        });
-        this.props.setGridData(newGridData);
-        if (numEventClicks < numOfClicks) {
-            console.log('test');
-            this.setState({ numEventClicks: numEventClicks++ });
-            console.log(`numEventClicks: ${numEventClicks}, num: ${numOfClicks}`)
-            this.pause(200);
-            this.refs.resetGridBtn.click();
-            this.handleResetGrid();
-        } else {
-            console.log('should not be in here');
-            // this.setState({ numEventClicks: 0});
-            return;
+        let { gridData } = this.props;
+        let {
+            i,
+            j,
+            gridDataLength,
+            itemsRemoved
+        } = this.state;
+        if(gridData.length < 1) return;
+        if (i < gridDataLength - 1) {
+            setTimeout(() => {
+                if (gridData[j].y > gridData[j+1].y) {
+                    gridData.splice(j+1, 1);
+                    itemsRemoved++;
+                    for(let n = j + 1; n < gridDataLength - itemsRemoved; n++) {
+                        gridData[n].x--;
+                    }
+                    j--;
+                }
+                this.props.setGridData(gridData);
+                j++;
+                this.setState({
+                    i: ++i,
+                    j,
+                    itemsRemoved
+                });
+                this.refs.resetGridBtn.click();
+            }, 400);
         }
+
+        this.setState({
+            gridData
+        });
     }
 
     grid_change(event) {
