@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Navigation from './components/navbar';
-import SideBar from './components/sidebar';
 import GridCanvas from './components/gridCanvas';
 import { Container } from 'react-bootstrap';
-
-import { changeGridSize, createNewGrid } from './redux/actions';
 
 export default class App extends Component {
   constructor(props) {
@@ -25,9 +22,6 @@ export default class App extends Component {
             <GridCanvas></GridCanvas>
           </Grid>
         </Container>
-        {/* <SideBarWrapper>
-          <SideBar></SideBar>
-        </SideBarWrapper>  */}
       </Wrapper>
     );
   }
@@ -38,11 +32,6 @@ const Wrapper = styled.div`
   height: 100vh;
   background-color: lightskyblue;
   position: absolute;
-`;
-
-const SideBarWrapper = styled.div`
-  position: fixed;
-  width: 15em;
 `;
 
 const Grid = styled.div`

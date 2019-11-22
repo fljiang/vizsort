@@ -9,31 +9,41 @@ import {
     Navbar,
     Nav,
     Form,
-    FormControl
+    FormControl,
+    NavDropdown
 } from 'react-bootstrap';
 import styled from 'styled-components';
+
+const resetPlotColors = (gridData) => {
+    return gridData.map(data => ({
+        x: data.x,
+        y: data.y,
+        color: 0
+    }));
+}
 
 class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
             gridSize: 12,
-            numEventClicks: 0,
-            gridData: [],
+            originalGridData: [],
             gridDataLength: 0,
-            itemsRemoved: 0,
-            i: 0,
-            j: 0
         }
-        this.grid_change = this.grid_change.bind(this)
-        this.handleGridSizeChange = this.handleGridSizeChange.bind(this)
-
     }
 
     componentDidMount() {
         this.setState({
-            gridDataLength: this.props.gridData.length
-        })
+            gridDataLength: this.props.gridData.length,
+            originalGridData: JSON.parse(JSON.stringify(this.props.gridData))
+        });
+
+        // fix mobile view
+        let windowWidth = window.innerWidth;
+        let $dropdown = document.getElementById('basic-nav-dropdown');
+        if(windowWidth < 992) {
+            $dropdown.style.paddingLeft = 0;
+        }
     }
 
     handleGridSizeChange = () => {
@@ -41,42 +51,103 @@ class Navigation extends Component {
     }
 
     handleCreateNewGrid = () => {
-        this.props.createNewGrid();
+        let newGridData = [];
+        for(let i = 0; i < 25; i++) {
+            newGridData.push({
+                x: i,
+                y: Math.floor(Math.random()*25) + 1,
+                color: 0
+            })
+        }
+        this.setState({
+            gridDataLength: newGridData.length,
+            originalGridData: JSON.parse(JSON.stringify(newGridData))
+        });
+        this.props.setGridData(newGridData);
     }
 
     handleResetGrid = () => {
-        let { gridData } = this.props;
-        let {
-            i,
-            j,
-            gridDataLength,
-            itemsRemoved
-        } = this.state;
-        if(gridData.length < 1) return;
-        if (i < gridDataLength - 1) {
+        this.setState({
+            gridDataLength: this.state.originalGridData.length
+        })
+        this.props.setGridData(JSON.parse(JSON.stringify(this.state.originalGridData)));
+    }
+
+    handleSelectionSort = () => {
+        let { gridDataLength } = this.state;
+        let currMin, currMinIndex, temp, j, gridData;
+        for (let i = 0; i < gridDataLength - 1; ++i) {
             setTimeout(() => {
-                if (gridData[j].y > gridData[j+1].y) {
-                    gridData.splice(j+1, 1);
-                    itemsRemoved++;
-                    for(let n = j + 1; n < gridDataLength - itemsRemoved; n++) {
+                gridData = this.props.gridData;
+                for (j = i + 1; j < gridDataLength; j++) {
+                    currMin = gridData[i].y;
+                    currMinIndex = i
+                    if (gridData[j].y < currMin) {
+                        currMin = gridData[j].y;
+                        currMinIndex = j;
+                    }
+                    temp = gridData[i].y;
+                    gridData[i].y = currMin;
+                    gridData[currMinIndex].y = temp;
+                }
+                this.props.setGridData(gridData);
+            }, 100 * i);
+        }
+    }
+
+    handleStalinsort = () => {
+        let { gridData } = this.props;
+        let { gridDataLength } = this.state;
+        let j = 0;
+        for (let i = 0; i < gridDataLength - 1; i++) {
+            setTimeout(() => {
+                if (gridData[j].y > gridData[j + 1].y) {
+                    gridData = resetPlotColors(gridData);
+                    gridData[i - (i - j)].color = 4;
+                    gridData.splice(j + 1, 1);
+                    for(let n = j + 1; n < gridDataLength - (i - j) - 1; n++) {
                         gridData[n].x--;
                     }
                     j--;
                 }
                 this.props.setGridData(gridData);
                 j++;
-                this.setState({
-                    i: ++i,
-                    j,
-                    itemsRemoved
-                });
-                this.refs.resetGridBtn.click();
-            }, 400);
+                if (i === gridDataLength - 2) {
+                    this.props.setGridData(resetPlotColors(gridData));
+                    this.setState({
+                        gridDataLength: gridData.length
+                    });
+                }
+            }, 200 * i);
         }
+    }
 
-        this.setState({
-            gridData
-        });
+    handleInsertionSort = () => {
+        let { gridData } = this.props;
+        let { gridDataLength } = this.state;
+        let j, currValue;
+        for (let i = 1; i < gridDataLength; i++) {
+            setTimeout(() => {
+                currValue = gridData[i].y;
+                for (j = i - 1; j >= 0 && currValue < gridData[j].y; j--) {
+                    gridData[j + 1].y = gridData[j].y;
+                    if (j + 1 === i) {
+                        gridData[i].color = 4;
+                    } else {
+                        gridData[j + 1].color = 2;
+                    }
+                    gridData[j].color = 2;
+                    this.props.setGridData(gridData);
+                }
+                gridData[j + 1].y = currValue;
+                this.props.setGridData(gridData);
+                gridData = resetPlotColors(gridData);
+                if(i === gridDataLength - 1) {
+                    gridData = resetPlotColors(gridData);
+                    this.props.setGridData(gridData);
+                }
+            }, 400 * i);
+        }
     }
 
     grid_change(event) {
@@ -96,9 +167,14 @@ class Navigation extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                        <Nav.Link href="#New" onClick={this.handleCreateNewGrid}>New</Nav.Link>
-                        <Nav.Link href="#Reset" ref="resetGridBtn" onClick={this.handleResetGrid}>Reset</Nav.Link>
+                        <Nav.Link onClick={this.handleCreateNewGrid}>New</Nav.Link>
+                        <Nav.Link onClick={this.handleResetGrid}>Reset</Nav.Link>
                         </Nav>
+                        <NavDropdown ref="dropdownRef" title="Sorts" id="basic-nav-dropdown">
+                            <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
+                        </NavDropdown>
                         <Form inline>
                         <FormControl type="text" placeholder="12" className="size_ctrl" value={gridSize} onChange={this.grid_change}/>
                         <SubmitButton variant="outline-success" onClick={this.handleGridSizeChange}>Change Size</SubmitButton>

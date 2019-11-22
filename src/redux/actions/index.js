@@ -5,9 +5,10 @@ export const changeGridSize = (gridSize) => {
     }
 }
 
-export const createNewGrid = () => {
+export const createNewGrid = (gridData) => {
     return {
-        type: 'CREATE_NEW_GRID'
+        type: 'CREATE_NEW_GRID',
+        payload: gridData
     }
 }
 
@@ -16,4 +17,4 @@ export const setGridData = (gridData) => {
         type: 'SET_GRID_DATA',
         payload: gridData
     }
-}
+} 

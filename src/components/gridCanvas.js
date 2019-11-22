@@ -12,6 +12,7 @@ import {
 } from 'react-vis';
 
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
+import verticalBarSeries from 'react-vis/dist/plot/series/vertical-bar-series';
 
 class GridCanvas extends Component {
     constructor(props) {
@@ -20,7 +21,8 @@ class GridCanvas extends Component {
             gridSize: 12,
             clientWidth: 200,
             clientHeight: 200,
-            gridData: []
+            gridData: [],
+            dataSwapPoints: []
         }
         this.gridWrap = React.createRef();
     }
@@ -30,24 +32,26 @@ class GridCanvas extends Component {
             clientWidth,
             clientHeight
         } = this.gridWrap.current;
-        const { gridData } = this.props;
+        const { gridData, dataSwapPoints } = this.props;
         this.setState({
             clientWidth,
             clientHeight,
-            gridData
+            gridData,
+            dataSwapPoints
         });
         this.forceUpdate();
     }
 
     shouldComponentUpdate(newProps, state) {
-        const oldGridData = this.props.gridData;
-        const { gridData } = newProps;
+        const { gridData, dataSwapPoints } = newProps;
         const oldNumGridDataUpdated = this.props.numGridDataUpdated;
         const { numGridDataUpdated } = newProps;
         if (numGridDataUpdated !== oldNumGridDataUpdated ) {
             this.setState({
-                gridData
+                gridData,
+                dataSwapPoints
             });
+            this.forceUpdate();
             return true;
         }
         return false;
@@ -57,16 +61,12 @@ class GridCanvas extends Component {
         const {
             clientWidth,
             clientHeight,
-            gridData
+            gridData,
         } = this.state;
-        console.log(gridData);
         return (
             <Wrapper ref={this.gridWrap}>
-                <XYPlot
-                    height={clientHeight}
-                    width={clientWidth}
-                >
-                <VerticalBarSeries data={gridData} />
+                <XYPlot stackBy="y" height={clientHeight} width={clientWidth} colorDomain={[0,1,2,3,4]}>
+                    <VerticalBarSeries data={gridData} animation></VerticalBarSeries>
                 </XYPlot>
             </Wrapper>
         );
