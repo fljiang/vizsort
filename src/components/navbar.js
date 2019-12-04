@@ -80,18 +80,28 @@ class Navigation extends Component {
             setTimeout(() => {
                 gridData = this.props.gridData;
                 for (j = i + 1; j < gridDataLength; j++) {
+                    gridData = resetPlotColors(gridData);
+                    gridData[i].color = 4;
                     currMin = gridData[i].y;
                     currMinIndex = i
                     if (gridData[j].y < currMin) {
                         currMin = gridData[j].y;
                         currMinIndex = j;
+                        gridData[currMinIndex].color = 2;
+                        this.props.setGridData(gridData);
                     }
                     temp = gridData[i].y;
                     gridData[i].y = currMin;
                     gridData[currMinIndex].y = temp;
                 }
                 this.props.setGridData(gridData);
-            }, 100 * i);
+                if (i === gridDataLength - 2) {
+                    this.props.setGridData(resetPlotColors(gridData));
+                    this.setState({
+                        gridDataLength: gridData.length
+                    });
+                }
+            }, 200 * i);
         }
     }
 
@@ -146,7 +156,7 @@ class Navigation extends Component {
                     gridData = resetPlotColors(gridData);
                     this.props.setGridData(gridData);
                 }
-            }, 400 * i);
+            }, 200 * i);
         }
     }
 
