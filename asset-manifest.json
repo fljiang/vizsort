@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/home/static/css/main.861c5726.chunk.css",
-    "main.js": "/home/static/js/main.dc17ad84.chunk.js",
-    "main.js.map": "/home/static/js/main.dc17ad84.chunk.js.map",
-    "runtime~main.js": "/home/static/js/runtime~main.79dda040.js",
-    "runtime~main.js.map": "/home/static/js/runtime~main.79dda040.js.map",
-    "static/js/2.25adc2b2.chunk.js": "/home/static/js/2.25adc2b2.chunk.js",
-    "static/js/2.25adc2b2.chunk.js.map": "/home/static/js/2.25adc2b2.chunk.js.map",
-    "index.html": "/home/index.html",
-    "precache-manifest.aaeea8ea2f3ddcbf53d55bc5cc428b52.js": "/home/precache-manifest.aaeea8ea2f3ddcbf53d55bc5cc428b52.js",
-    "service-worker.js": "/home/service-worker.js",
-    "static/css/main.861c5726.chunk.css.map": "/home/static/css/main.861c5726.chunk.css.map"
+    "main.css": "/wizsort/static/css/main.861c5726.chunk.css",
+    "main.js": "/wizsort/static/js/main.652947ca.chunk.js",
+    "main.js.map": "/wizsort/static/js/main.652947ca.chunk.js.map",
+    "runtime~main.js": "/wizsort/static/js/runtime~main.0475f3e1.js",
+    "runtime~main.js.map": "/wizsort/static/js/runtime~main.0475f3e1.js.map",
+    "static/js/2.b43a9b09.chunk.js": "/wizsort/static/js/2.b43a9b09.chunk.js",
+    "static/js/2.b43a9b09.chunk.js.map": "/wizsort/static/js/2.b43a9b09.chunk.js.map",
+    "index.html": "/wizsort/index.html",
+    "precache-manifest.d554bc2db490b3e26e8b46841f824095.js": "/wizsort/precache-manifest.d554bc2db490b3e26e8b46841f824095.js",
+    "service-worker.js": "/wizsort/service-worker.js",
+    "static/css/main.861c5726.chunk.css.map": "/wizsort/static/css/main.861c5726.chunk.css.map"
   }
 }
