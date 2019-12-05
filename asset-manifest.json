@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/vizsort/static/css/main.861c5726.chunk.css",
-    "main.js": "/vizsort/static/js/main.10ad4dc3.chunk.js",
-    "main.js.map": "/vizsort/static/js/main.10ad4dc3.chunk.js.map",
-    "runtime~main.js": "/vizsort/static/js/runtime~main.92ae58ef.js",
-    "runtime~main.js.map": "/vizsort/static/js/runtime~main.92ae58ef.js.map",
-    "static/js/2.87beb117.chunk.js": "/vizsort/static/js/2.87beb117.chunk.js",
-    "static/js/2.87beb117.chunk.js.map": "/vizsort/static/js/2.87beb117.chunk.js.map",
-    "index.html": "/vizsort/index.html",
-    "precache-manifest.d2afc33e7c5e363d64e7e3ab408f0de9.js": "/vizsort/precache-manifest.d2afc33e7c5e363d64e7e3ab408f0de9.js",
-    "service-worker.js": "/vizsort/service-worker.js",
-    "static/css/main.861c5726.chunk.css.map": "/vizsort/static/css/main.861c5726.chunk.css.map"
+    "main.css": "/VizSort/static/css/main.861c5726.chunk.css",
+    "main.js": "/VizSort/static/js/main.0bb8c895.chunk.js",
+    "main.js.map": "/VizSort/static/js/main.0bb8c895.chunk.js.map",
+    "runtime~main.js": "/VizSort/static/js/runtime~main.20ff5c69.js",
+    "runtime~main.js.map": "/VizSort/static/js/runtime~main.20ff5c69.js.map",
+    "static/js/2.3e4668cf.chunk.js": "/VizSort/static/js/2.3e4668cf.chunk.js",
+    "static/js/2.3e4668cf.chunk.js.map": "/VizSort/static/js/2.3e4668cf.chunk.js.map",
+    "index.html": "/VizSort/index.html",
+    "precache-manifest.9af037a81c5327d305870e740b01269c.js": "/VizSort/precache-manifest.9af037a81c5327d305870e740b01269c.js",
+    "service-worker.js": "/VizSort/service-worker.js",
+    "static/css/main.861c5726.chunk.css.map": "/VizSort/static/css/main.861c5726.chunk.css.map"
   }
 }
