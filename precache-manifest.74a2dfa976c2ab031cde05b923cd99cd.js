@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8fe811ca4b491c8e5c279f234d727a6b",
+    "revision": "c503181463b9b49db9f5340da9ed8357",
     "url": "/vizsort/index.html"
   },
   {
-    "revision": "1aac3691425122537a40",
+    "revision": "c4576ed6750d4ceb6770",
     "url": "/vizsort/static/css/main.861c5726.chunk.css"
   },
   {
-    "revision": "818263579d49333beae9",
-    "url": "/vizsort/static/js/2.87beb117.chunk.js"
+    "revision": "b6d2f5dce61f4c2ff933",
+    "url": "/vizsort/static/js/2.b5eb1f16.chunk.js"
   },
   {
-    "revision": "1aac3691425122537a40",
-    "url": "/vizsort/static/js/main.0f6a9b7f.chunk.js"
+    "revision": "c4576ed6750d4ceb6770",
+    "url": "/vizsort/static/js/main.2c491044.chunk.js"
   },
   {
     "revision": "649e3a6726b9a35ead8e",
