@@ -33,14 +33,15 @@ class Navigation extends Component {
     }
 
     componentDidMount() {
+        let windowWidth = window.innerWidth;
+        let $dropdown = document.getElementById('basic-nav-dropdown');
+
         this.setState({
             gridDataLength: this.props.gridData.length,
             originalGridData: JSON.parse(JSON.stringify(this.props.gridData))
         });
 
         // fix mobile view
-        let windowWidth = window.innerWidth;
-        let $dropdown = document.getElementById('basic-nav-dropdown');
         if(windowWidth < 992) {
             $dropdown.style.paddingLeft = 0;
         }
@@ -160,6 +161,49 @@ class Navigation extends Component {
         }
     }
 
+    handleGnomeSort = () => {
+        let { gridData } = this.props;
+        let tempGridData = JSON.parse(JSON.stringify(gridData));
+        let { gridDataLength } = this.state;
+        let i = 0, counter = 0;
+        while (i < gridDataLength) {
+            counter++;
+            if (i == 0) { i++; }
+            if (tempGridData[i].y >= tempGridData[i - 1].y) {
+                i++;
+            } else {
+                let temp = tempGridData[i].y;
+                tempGridData[i].y = tempGridData[i - 1].y;
+                tempGridData[i - 1].y = temp;
+                i--;
+            }
+        }
+        i = 0;
+        for (let j = 0; j < counter; j++) {
+            setTimeout(() => {
+                gridData = resetPlotColors(gridData);
+                if (i > 0) {
+                    gridData[i].color = 4;
+                    gridData[i - 1].color = 2;
+                    this.props.setGridData(gridData);
+                    if (gridData[i].y < gridData[i - 1].y) {
+                        let temp = gridData[i].y;
+                        gridData[i].y = gridData[i - 1].y;
+                        gridData[i - 1].y = temp;
+                        i -= 2;
+                    }
+                    this.props.setGridData(gridData);
+                }
+                i++;
+                if(j === counter - 1) {
+                    gridData = resetPlotColors(gridData);
+                    this.props.setGridData(gridData);
+                }
+            }, 50 * j);
+            
+        }
+    }
+
     grid_change(event) {
         this.setState({
             gridSize: event.target.value
@@ -184,6 +228,7 @@ class Navigation extends Component {
                             <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
                         <Form inline>
                         <FormControl type="text" placeholder="12" className="size_ctrl" value={gridSize} onChange={this.grid_change}/>
