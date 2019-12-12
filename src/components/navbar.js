@@ -114,7 +114,7 @@ class Navigation extends Component {
             setTimeout(() => {
                 if (gridData[j].y > gridData[j + 1].y) {
                     gridData = resetPlotColors(gridData);
-                    gridData[i - (i - j)].color = 4;
+                    gridData[j].color = 4;
                     gridData.splice(j + 1, 1);
                     for(let n = j + 1; n < gridDataLength - (i - j) - 1; n++) {
                         gridData[n].x--;
