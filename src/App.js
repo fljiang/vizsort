@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 
 const Grid = styled.div`
   position: absolute;
-  width: 81.25%;
+  width: 89.55%;
   height: 80%;
   left: 50%;
   transform: translateX(-50%);
