@@ -17,29 +17,37 @@ export default class App extends Component {
     return (
       <Wrapper>
         <Navigation defaultValue={this.state.canvasSize} store={this.store}></Navigation>
-        <Container>
+        <NewContainer>
           <Grid>
             <GridCanvas></GridCanvas>
           </Grid>
-        </Container>
+        </NewContainer>
       </Wrapper>
     );
   }
 }
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: lightskyblue;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: lightskyblue;
+`;
+
+const NewContainer = styled(Container)`
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
 `;
 
 const Grid = styled.div`
-  position: absolute;
+  /* position: absolute;
   width: 89.55%;
   height: 80%;
   left: 50%;
   transform: translateX(-50%);
-  padding: .5rem 1rem;
+  padding: .5rem 1rem; */
   background-color: white;
 `;

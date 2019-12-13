@@ -28,7 +28,7 @@ class Navigation extends Component {
         this.state = {
             gridSize: 12,
             originalGridData: [],
-            gridDataLength: 0,
+            gridDataLength: 0
         }
     }
 
@@ -60,6 +60,7 @@ class Navigation extends Component {
                 color: 0
             })
         }
+        this.resetAllEvents();
         this.setState({
             gridDataLength: newGridData.length,
             originalGridData: JSON.parse(JSON.stringify(newGridData))
@@ -68,6 +69,7 @@ class Navigation extends Component {
     }
 
     handleResetGrid = () => {
+        this.resetAllEvents();
         this.setState({
             gridDataLength: this.state.originalGridData.length
         })
@@ -204,6 +206,13 @@ class Navigation extends Component {
         }
     }
 
+    resetAllEvents() {
+        let highestTimeoutId = setTimeout(";");
+        for (let i = 0 ; i < highestTimeoutId ; i++) {
+            clearTimeout(i); 
+        }
+    }
+
     grid_change(event) {
         this.setState({
             gridSize: event.target.value
@@ -215,8 +224,8 @@ class Navigation extends Component {
             gridSize
         } = this.state;
         return(
-            <Container>
-                <Navbar bg="light" expand="lg">
+            <NewContainer id="navbar">
+                <NewNavbar bg="light" expand="lg">
                     <Navbar.Brand href="#home">Viz-Sort</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -231,29 +240,49 @@ class Navigation extends Component {
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
                         <Form inline>
-                        <FormControl type="text" placeholder="12" className="size_ctrl" value={gridSize} onChange={this.grid_change}/>
-                        <SubmitButton variant="outline-success" onClick={this.handleGridSizeChange}>Change Size</SubmitButton>
+                        <NewFormControl type="text" placeholder="F(x)=" className="size_ctrl"  onChange={this.grid_change}/>
+                        <SubmitButton variant="outline-success" onClick={this.handleGridSizeChange}>Generate Graph</SubmitButton>
                         </Form>
                     </Navbar.Collapse>
-                </Navbar>
-            </Container>
+                </NewNavbar>
+            </NewContainer>
         )
     }
 }
+
+const NewFormControl = styled(FormControl)`
+    font-family: cursive;
+`;
+
+const NewContainer = styled(Container)`
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+    border-bottom: 2px solid #eee;
+`;
+
+const NewNavbar = styled(Navbar)`
+    width: 100%;
+`;
 
 const mapStateToProps = store => {
     const gridData = getGridData(store);
     return { gridData };
 }
 
+
 const SubmitButton = styled(Button)`
-    color: lightskyblue;
-    border: 1px solid lightskyblue;
+    color: #007bff;
+    margin-left: 5px;
+    border: 1px solid #007bff;
 
     &:hover, &:active, &:focus {
-        background-color: white !important;
-        border: 1px solid lightskyblue !important;
-        color: black !important;
+        background-color: #007bff !important;
+        border: 1px solid #007bff !important;
+        /* color: black !important; */
         box-shadow: none !important;
         outline: none;
 

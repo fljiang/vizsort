@@ -19,8 +19,9 @@ class GridCanvas extends Component {
         super(props);
         this.state = {
             gridSize: 12,
-            clientWidth: 200,
-            clientHeight: 200,
+            innerWidth: 200,
+            innerHeight: 200,
+            gridHeight: 0,
             gridData: [],
             dataSwapPoints: []
         }
@@ -29,14 +30,17 @@ class GridCanvas extends Component {
 
     componentDidMount() {
         const {
-            clientWidth,
-            clientHeight
-        } = this.gridWrap.current;
+            innerWidth,
+            innerHeight
+        // } = this.gridWrap.current;
+        } = window;
+        const navbarHeight = document.getElementById('navbar').clientHeight;
         const { gridData, dataSwapPoints } = this.props;
         this.setState({
-            clientWidth,
-            clientHeight,
+            innerWidth,
+            innerHeight,
             gridData,
+            gridHeight: window.innerHeight - navbarHeight,
             dataSwapPoints
         });
         this.forceUpdate();
@@ -59,13 +63,15 @@ class GridCanvas extends Component {
 
     render() {
         const {
-            clientWidth,
-            clientHeight,
+            innerWidth,
+            innerHeight,
             gridData,
+            gridHeight
         } = this.state;
+
         return (
             <Wrapper ref={this.gridWrap}>
-                <XYPlot stackBy="y" height={clientHeight} width={clientWidth} colorDomain={[0,1,2,3,4]}>
+                <XYPlot stackBy="y" height={gridHeight} width={innerWidth} colorDomain={[0,1,2,3,4]}>
                     <VerticalBarSeries data={gridData} animation></VerticalBarSeries>
                 </XYPlot>
             </Wrapper>
@@ -75,7 +81,7 @@ class GridCanvas extends Component {
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
 `;
 
 const mapStateToProps = state => {
