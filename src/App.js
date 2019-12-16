@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background-color: lightskyblue;
+  background-color: white;
 `;
 
 const NewContainer = styled(Container)`
@@ -40,6 +40,7 @@ const NewContainer = styled(Container)`
   max-width: 100%;
   padding: 0;
   margin: 0;
+  margin-left: -15px;
 `;
 
 const Grid = styled.div`

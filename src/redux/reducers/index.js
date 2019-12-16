@@ -8,7 +8,7 @@ for(let i = 0; i < 25; i++) {
 }
 
 const initialState = {
-    gridSize: 12,
+    gridSize: newGridData.length,
     gridData: JSON.parse(JSON.stringify(newGridData)),
     numGridDataUpdated: 0 // keeps track of number of times the data was changed
 }
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
       case 'CHANGE_GRID_SIZE':
         // console.log(`Grid size changed from ${state.gridSize} to ${action.payload}`);
         return Object.assign({}, state, {
-          gridSize: action.payload || 12
+          gridSize: action.payload || 25
         })
       case 'CREATE_NEW_GRID':
         // console.log("Data cleared!");

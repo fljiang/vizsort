@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getGridData } from '../redux/selectors';
+import { getGridData, getGridSize } from '../redux/selectors';
 import { changeGridSize, createNewGrid, setGridData } from '../redux/actions';
 
 import {
@@ -13,6 +13,8 @@ import {
     NavDropdown
 } from 'react-bootstrap';
 import styled from 'styled-components';
+
+import Slider from './slider';
 
 const resetPlotColors = (gridData) => {
     return gridData.map(data => ({
@@ -52,11 +54,13 @@ class Navigation extends Component {
     }
 
     handleCreateNewGrid = () => {
+        const { gridSize } = this.props;
         let newGridData = [];
-        for(let i = 0; i < 25; i++) {
+        
+        for(let i = 0; i < gridSize; i++) {
             newGridData.push({
                 x: i,
-                y: Math.floor(Math.random()*25) + 1,
+                y: Math.floor(Math.random() * 25) + 1,
                 color: 0
             })
         }
@@ -213,12 +217,6 @@ class Navigation extends Component {
         }
     }
 
-    grid_change(event) {
-        this.setState({
-            gridSize: event.target.value
-        })
-    }
-
     render() {
         const {
             gridSize
@@ -233,14 +231,15 @@ class Navigation extends Component {
                         <Nav.Link onClick={this.handleCreateNewGrid}>New</Nav.Link>
                         <Nav.Link onClick={this.handleResetGrid}>Reset</Nav.Link>
                         </Nav>
-                        <NavDropdown ref="dropdownRef" title="Sorts" id="basic-nav-dropdown">
+                        <Slider createNewGrid={this.handleCreateNewGrid} />
+                        <NavDropdown title="Sorts" id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
                         <Form inline>
-                        <NewFormControl type="text" placeholder="F(x)=" className="size_ctrl"  onChange={this.grid_change}/>
+                        <NewFormControl type="text" placeholder="F(x)=" className="size_ctrl" />
                         <SubmitButton variant="outline-success" onClick={this.handleGridSizeChange}>Generate Graph</SubmitButton>
                         </Form>
                     </Navbar.Collapse>
@@ -260,17 +259,17 @@ const NewContainer = styled(Container)`
     margin: 0;
     padding-left: 0;
     padding-right: 0;
-    box-sizing: border-box;
-    border-bottom: 2px solid #eee;
 `;
 
 const NewNavbar = styled(Navbar)`
-    width: 100%;
+    width: calc(15px + 100%);
+    border-bottom: 2px solid #eee;
 `;
 
 const mapStateToProps = store => {
     const gridData = getGridData(store);
-    return { gridData };
+    const gridSize = getGridSize(store);
+    return { gridData, gridSize };
 }
 
 
@@ -282,7 +281,6 @@ const SubmitButton = styled(Button)`
     &:hover, &:active, &:focus {
         background-color: #007bff !important;
         border: 1px solid #007bff !important;
-        /* color: black !important; */
         box-shadow: none !important;
         outline: none;
 
