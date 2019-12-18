@@ -18,6 +18,9 @@ class Slider extends Component {
             maxGridSize: 50,
             currGridSize: 25
         };
+        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleMouseUp = this.handleMouseUp.bind(this);
     }
 
     componentDidMount() {
@@ -46,8 +49,8 @@ class Slider extends Component {
         let { clientX } = ev;
         // mousemove: obtain cursor position
         // mouseup: save position for the element
-        window.addEventListener('mousemove', this.handleMouseMove.bind(this));
-        window.addEventListener('mouseup', this.handleMouseUp.bind(this));
+        window.addEventListener('mousemove', this.handleMouseMove);
+        window.addEventListener('mouseup', this.handleMouseUp);
 
         this.setState({
           originalX: clientX,
@@ -89,9 +92,6 @@ class Slider extends Component {
     }
 
     handleMouseUp() {
-        window.removeEventListener('mousemove', this.handleMouseMove);
-        window.removeEventListener('mouseup', this.handleMouseUp);
-        
         this.setState({
             originalX: 0,
             lastTranslateX: this.state.translateX,
@@ -99,6 +99,8 @@ class Slider extends Component {
         });
 
         this.handleGridSizeChange();
+        window.removeEventListener('mousemove', this.handleMouseMove);
+        window.removeEventListener('mouseup', this.handleMouseUp);
     }
 
     handleGridSizeChange() {
@@ -134,7 +136,7 @@ class Slider extends Component {
                 >
                     <Ball
                         ref="ballRef"
-                        onMouseDown={this.handleMouseDown.bind(this)}
+                        onMouseDown={this.handleMouseDown}
                         x={translateX}
                         currGridSize={currGridSize}
                         isDragging={isDragging}   
@@ -165,6 +167,7 @@ const Bar = styled.div`
     border-radius: 2px;
     background-color: #007bff;
 `;
+
 
 const Ball = styled.div.attrs({
     style: ({ x }) => ({
