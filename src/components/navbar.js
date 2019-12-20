@@ -1,5 +1,8 @@
+/* eslint-disable no-implied-eval */
+/* eslint-disable no-loop-func */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { parse } from 'mathjs';
 import { getGridData, getGridSize } from '../redux/selectors';
 import { changeGridSize, createNewGrid, setGridData } from '../redux/actions';
 
@@ -83,6 +86,7 @@ class Navigation extends Component {
     handleSelectionSort = () => {
         let { gridDataLength } = this.state;
         let currMin, currMinIndex, temp, j, gridData;
+        this.resetAllEvents();
         for (let i = 0; i < gridDataLength - 1; ++i) {
             setTimeout(() => {
                 gridData = this.props.gridData;
@@ -116,6 +120,7 @@ class Navigation extends Component {
         let { gridData } = this.props;
         let { gridDataLength } = this.state;
         let j = 0;
+        this.resetAllEvents();
         for (let i = 0; i < gridDataLength - 1; i++) {
             setTimeout(() => {
                 if (gridData[j].y > gridData[j + 1].y) {
@@ -143,6 +148,7 @@ class Navigation extends Component {
         let { gridData } = this.props;
         let { gridDataLength } = this.state;
         let j, currValue;
+        this.resetAllEvents();
         for (let i = 1; i < gridDataLength; i++) {
             setTimeout(() => {
                 currValue = gridData[i].y;
@@ -172,9 +178,10 @@ class Navigation extends Component {
         let tempGridData = JSON.parse(JSON.stringify(gridData));
         let { gridDataLength } = this.state;
         let i = 0, counter = 0;
+        this.resetAllEvents();
         while (i < gridDataLength) {
             counter++;
-            if (i == 0) { i++; }
+            if (i === 0) { i++; }
             if (tempGridData[i].y >= tempGridData[i - 1].y) {
                 i++;
             } else {
@@ -210,6 +217,35 @@ class Navigation extends Component {
         }
     }
 
+    submitNewExpression = (ev) => {
+        if (ev.key === 'Enter') {
+            this.handleNewExpression();
+        }
+    }
+
+    handleNewExpression = () => {
+        let { gridData } = this.props;
+        const expressionStr = this.refs.newGraphRef.value;
+        const { newGraphRef } = this.refs;
+        try {
+            parse(expressionStr).evaluate({x: 1});
+        } catch {
+            console.log(`Invalid expression: ${expressionStr}`);
+            newGraphRef.style.border = '2px solid red';
+            return null;
+        }
+        const expression = parse(expressionStr);
+        this.resetAllEvents();
+        gridData = gridData.map((data) => {
+            return {
+                x: data.x,
+                y: expression.evaluate({ x: data.x }),
+                color: data.color
+            }
+        });
+        this.props.setGridData(gridData);
+    }
+
     resetAllEvents() {
         let highestTimeoutId = setTimeout(";");
         for (let i = 0 ; i < highestTimeoutId ; i++) {
@@ -218,9 +254,6 @@ class Navigation extends Component {
     }
 
     render() {
-        const {
-            gridSize
-        } = this.state;
         return(
             <NewContainer id="navbar">
                 <NewNavbar bg="light" expand="lg">
@@ -238,9 +271,12 @@ class Navigation extends Component {
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
-                        <Form inline>
-                        <NewFormControl type="text" placeholder="F(x)=" className="size_ctrl" />
-                        <SubmitButton variant="outline-success" onClick={this.handleGridSizeChange}>Generate Graph</SubmitButton>
+                        <Form
+                            action="javascript:void(-1)"
+                            onKeyDown={this.submitNewExpression}
+                            inline>
+                        <NewFormControl type="text" placeholder="F(x)" ref="newGraphRef" className="size_ctrl" />
+                        <SubmitButton variant="outline-success" onClick={this.handleNewExpression}>Generate Graph</SubmitButton>
                         </Form>
                     </Navbar.Collapse>
                 </NewNavbar>
@@ -251,6 +287,10 @@ class Navigation extends Component {
 
 const NewFormControl = styled(FormControl)`
     font-family: cursive;
+    box-sizing: border-box;
+    :active {
+        outline: none;
+    }
 `;
 
 const NewContainer = styled(Container)`

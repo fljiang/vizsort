@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import {
     HorizontalGridLines,
@@ -12,7 +11,6 @@ import {
 } from 'react-vis';
 
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
-import verticalBarSeries from 'react-vis/dist/plot/series/vertical-bar-series';
 
 class GridCanvas extends Component {
     constructor(props) {
@@ -64,7 +62,6 @@ class GridCanvas extends Component {
     render() {
         const {
             innerWidth,
-            innerHeight,
             gridData,
             gridHeight
         } = this.state;

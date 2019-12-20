@@ -17,7 +17,6 @@ class Slider extends Component {
 
             maxGridSize: 50,
             currGridSize: 25,
-            boundingWidth: 0
         };
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
