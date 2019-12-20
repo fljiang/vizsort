@@ -16,7 +16,8 @@ class Slider extends Component {
             boundingWidth: 0,
 
             maxGridSize: 50,
-            currGridSize: 25
+            currGridSize: 25,
+            boundingWidth: 0
         };
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -64,9 +65,9 @@ class Slider extends Component {
             isDragging,
             boundingWidth,
             originalX,
-            lastTranslateX
+            lastTranslateX,
          } = this.state;
-         let translateX = clientX - originalX + lastTranslateX;
+        let translateX = clientX - originalX + lastTranslateX;
 
         if (!isDragging) {
             return;
@@ -78,17 +79,8 @@ class Slider extends Component {
         if (translateX < 0) {
             translateX = 0;
         }
-
+        
         this.setState({ translateX });
-
-        const barWidth = this.refs.barRef.clientWidth - 16;
-        const { maxGridSize } = this.state;
-        let newGridSize = Math.round(lastTranslateX/barWidth * maxGridSize);
-        newGridSize = (newGridSize > 2) ? newGridSize : 2;
-        this.setState({
-            currGridSize: newGridSize
-        })
-
     }
 
     handleMouseUp() {
@@ -113,21 +105,17 @@ class Slider extends Component {
     }
 
     handleLocalGridSizeChange() {
-        const barWidth = this.refs.barRef.clientWidth - 16;
-        const { lastTranslateX, maxGridSize } = this.state;
-        let newGridSize = Math.round(lastTranslateX/barWidth * maxGridSize);
-        newGridSize = (newGridSize > 2) ? newGridSize : 2;
-        this.setState({
-            currGridSize: newGridSize
-        })
+        const { boundingWidth, lastTranslateX, maxGridSize } = this.state;
+        let newGridSize = Math.round(lastTranslateX/boundingWidth * maxGridSize);
+        return (newGridSize > 2) ? newGridSize : 2;
     }
 
     render() {
         const {
             translateX,
-            currGridSize,
             isDragging
         } = this.state;
+        const newGridSize = this.handleLocalGridSizeChange();
 
         return (
             <Container>
@@ -138,9 +126,10 @@ class Slider extends Component {
                         ref="ballRef"
                         onMouseDown={this.handleMouseDown}
                         x={translateX}
-                        currGridSize={currGridSize}
                         isDragging={isDragging}   
-                    />
+                    >
+                        <Popup>{newGridSize}</Popup>
+                    </Ball>
                 </Bar>
             </Container>
         );
@@ -168,6 +157,13 @@ const Bar = styled.div`
     background-color: #007bff;
 `;
 
+const Popup = styled.div`
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+`;
 
 const Ball = styled.div.attrs({
     style: ({ x }) => ({
@@ -183,14 +179,6 @@ const Ball = styled.div.attrs({
     height: 1rem;
     border-radius: 50%;
     background-color: #d3d3d3;
-
-    ::before {
-        content: '${props => props.currGridSize}';
-        position: absolute;
-        top: -50%;
-        transform: translateY(-50%);
-        font-size: 10px;
-    }
 
     ${({ isDragging }) => 
     isDragging && css`
