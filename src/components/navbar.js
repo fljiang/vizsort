@@ -288,7 +288,8 @@ class Navigation extends Component {
 const NewFormControl = styled(FormControl)`
     font-family: cursive;
     box-sizing: border-box;
-    :active {
+    :focus {
+        box-shadow: none;
         outline: none;
     }
 `;
