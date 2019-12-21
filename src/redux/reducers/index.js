@@ -10,6 +10,8 @@ for(let i = 0; i < 25; i++) {
 const initialState = {
     gridSize: newGridData.length,
     gridData: JSON.parse(JSON.stringify(newGridData)),
+    isExpressionGraph: false,
+    expression: '',
     numGridDataUpdated: 0 // keeps track of number of times the data was changed
 }
 
@@ -30,7 +32,14 @@ export default (state = initialState, action) => {
         // console.log('New Grid data received');
         return Object.assign({}, state, {
           gridData: action.payload || [],
-          numGridDataUpdated: ++state.numGridDataUpdated
+          numGridDataUpdated: ++state.numGridDataUpdated,
+          isExpressionGraph: false
+        })
+      case 'SET_EXPRESSION_GRAPH':
+        return Object.assign({}, state, {
+          gridData: action.payload,
+          numGridDataUpdated: ++state.numGridDataUpdated,
+          isExpressionGraph: true
         })
       default:
         return state

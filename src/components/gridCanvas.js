@@ -7,7 +7,12 @@ import {
     XAxis,
     XYPlot,
     YAxis,
-    VerticalBarSeries
+    VerticalBarSeries,
+    Hint,
+    VerticalRectSeries,
+    MarkSeries,
+    LineMarkSeries,
+    LineSeries
 } from 'react-vis';
 
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
@@ -38,7 +43,7 @@ class GridCanvas extends Component {
             innerWidth,
             innerHeight,
             gridData,
-            gridHeight: window.innerHeight - navbarHeight,
+            gridHeight: window.innerHeight - navbarHeight - 20,
             dataSwapPoints
         });
         this.forceUpdate();
@@ -68,7 +73,11 @@ class GridCanvas extends Component {
 
         return (
             <Wrapper ref={this.gridWrap}>
-                <XYPlot stackBy="y" height={gridHeight} width={innerWidth} colorDomain={[0,1,2,3,4]}>
+                <XYPlot stackBy="y" height={gridHeight} width={innerWidth - 20} colorDomain={[0,1,2,3,4]}>
+                    <XAxis />
+                    <YAxis />
+                    <VerticalGridLines />
+                    <HorizontalGridLines />
                     <VerticalBarSeries data={gridData} animation></VerticalBarSeries>
                 </XYPlot>
             </Wrapper>

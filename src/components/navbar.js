@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { parse } from 'mathjs';
-import { getGridData, getGridSize } from '../redux/selectors';
-import { changeGridSize, createNewGrid, setGridData } from '../redux/actions';
+import { getGridData, getGridSize, getIsExpressionGraph } from '../redux/selectors';
+import { changeGridSize, createNewGrid, setGridData, setExpressionGraph } from '../redux/actions';
 
 import {
     Container,
@@ -50,10 +50,6 @@ class Navigation extends Component {
         if(windowWidth < 992) {
             $dropdown.style.paddingLeft = 0;
         }
-    }
-
-    handleGridSizeChange = () => {
-        this.props.changeGridSize(this.state.gridSize);
     }
 
     handleCreateNewGrid = () => {
@@ -224,9 +220,11 @@ class Navigation extends Component {
     }
 
     handleNewExpression = () => {
-        let { gridData } = this.props;
+        let { gridSize } = this.props;
         const expressionStr = this.refs.newGraphRef.value;
         const { newGraphRef } = this.refs;
+        const gridData = [];
+
         try {
             parse(expressionStr).evaluate({x: 1});
         } catch {
@@ -236,14 +234,21 @@ class Navigation extends Component {
         }
         const expression = parse(expressionStr);
         this.resetAllEvents();
-        gridData = gridData.map((data) => {
-            return {
-                x: data.x,
-                y: expression.evaluate({ x: data.x }),
-                color: data.color
-            }
-        });
-        this.props.setGridData(gridData);
+        for (let i = 0; i < gridSize; i++) {
+            gridData.push({
+                x: i,
+                y: expression.evaluate({x: i}),
+                color: 0
+            });
+        }
+        this.props.setExpressionGraph(gridData);
+    }
+
+    handleSliderNewGrid = () => {
+        const {
+            isExpressionGraph
+         } = this.props;
+         isExpressionGraph ? this.handleNewExpression() : this.handleCreateNewGrid();
     }
 
     resetAllEvents() {
@@ -264,13 +269,20 @@ class Navigation extends Component {
                         <Nav.Link onClick={this.handleCreateNewGrid}>New</Nav.Link>
                         <Nav.Link onClick={this.handleResetGrid}>Reset</Nav.Link>
                         </Nav>
-                        <Slider createNewGrid={this.handleCreateNewGrid} />
-                        <NavDropdown title="Sorts" id="basic-nav-dropdown">
+                        <Slider createNewGrid={this.handleSliderNewGrid.bind(this)} />
+                        <NavDropdown title="Sorts">
                             <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
+                        <NavDropdown title="Type">
+                            <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
+                        </NavDropdown>
+                       
                         <Form
                             action="javascript:void(-1)"
                             onKeyDown={this.submitNewExpression}
@@ -310,7 +322,8 @@ const NewNavbar = styled(Navbar)`
 const mapStateToProps = store => {
     const gridData = getGridData(store);
     const gridSize = getGridSize(store);
-    return { gridData, gridSize };
+    const isExpressionGraph = getIsExpressionGraph(store);
+    return { gridData, gridSize, isExpressionGraph };
 }
 
 
@@ -328,4 +341,4 @@ const SubmitButton = styled(Button)`
     }
 `;
 
-export default connect(mapStateToProps, { changeGridSize, createNewGrid, setGridData })(Navigation);
+export default connect(mapStateToProps, { changeGridSize, createNewGrid, setGridData, setExpressionGraph })(Navigation);

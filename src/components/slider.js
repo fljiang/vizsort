@@ -93,12 +93,12 @@ class Slider extends Component {
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
     }
-
+    
     handleGridSizeChange() {
         const barWidth = this.refs.barRef.clientWidth - 16;
         const { lastTranslateX, maxGridSize } = this.state;
         const newGridSize = Math.round(lastTranslateX/barWidth * maxGridSize);
-
+        
         this.props.changeGridSize(newGridSize > 2 ? newGridSize : 2);
         this.props.createNewGrid();
     }
