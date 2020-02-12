@@ -14,7 +14,11 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
+<<<<<<< HEAD
   "/vizsort/precache-manifest.791ffd0a2446ae5f29a9d82d00029a81.js"
+=======
+  "/vizsort/precache-manifest.967a5360da8bccdfd21bb5c061ff4543.js"
+>>>>>>> 21cf4405398fe281289078d7bca55d8db86dea94
 );
 
 self.addEventListener('message', (event) => {
@@ -35,5 +39,5 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("/vizsort/index.html"), {
   
-  blacklist: [/^\/_/,/\/[^/?]+\.[^/]+$/],
+  blacklist: [/^\/_/,/\/[^\/?]+\.[^\/]+$/],
 });

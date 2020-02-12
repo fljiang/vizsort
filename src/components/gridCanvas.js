@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import {
     HorizontalGridLines,
@@ -8,11 +7,15 @@ import {
     XAxis,
     XYPlot,
     YAxis,
-    VerticalBarSeries
+    VerticalBarSeries,
+    Hint,
+    VerticalRectSeries,
+    MarkSeries,
+    LineMarkSeries,
+    LineSeries
 } from 'react-vis';
 
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
-import verticalBarSeries from 'react-vis/dist/plot/series/vertical-bar-series';
 
 class GridCanvas extends Component {
     constructor(props) {
@@ -40,7 +43,7 @@ class GridCanvas extends Component {
             innerWidth,
             innerHeight,
             gridData,
-            gridHeight: window.innerHeight - navbarHeight,
+            gridHeight: window.innerHeight - navbarHeight - 20,
             dataSwapPoints
         });
         this.forceUpdate();
@@ -64,7 +67,6 @@ class GridCanvas extends Component {
     render() {
         const {
             innerWidth,
-            innerHeight,
             gridData,
             gridHeight
         } = this.state;

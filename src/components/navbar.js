@@ -1,7 +1,10 @@
+/* eslint-disable no-implied-eval */
+/* eslint-disable no-loop-func */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getGridData, getGridSize } from '../redux/selectors';
-import { changeGridSize, createNewGrid, setGridData } from '../redux/actions';
+import { parse } from 'mathjs';
+import { getGridData, getGridSize, getIsExpressionGraph } from '../redux/selectors';
+import { changeGridSize, createNewGrid, setGridData, setExpressionGraph } from '../redux/actions';
 
 import {
     Container,
@@ -49,10 +52,6 @@ class Navigation extends Component {
         }
     }
 
-    handleGridSizeChange = () => {
-        this.props.changeGridSize(this.state.gridSize);
-    }
-
     handleCreateNewGrid = () => {
         const { gridSize } = this.props;
         let newGridData = [];
@@ -83,6 +82,7 @@ class Navigation extends Component {
     handleSelectionSort = () => {
         let { gridDataLength } = this.state;
         let currMin, currMinIndex, temp, j, gridData;
+        this.resetAllEvents();
         for (let i = 0; i < gridDataLength - 1; ++i) {
             setTimeout(() => {
                 gridData = this.props.gridData;
@@ -116,6 +116,7 @@ class Navigation extends Component {
         let { gridData } = this.props;
         let { gridDataLength } = this.state;
         let j = 0;
+        this.resetAllEvents();
         for (let i = 0; i < gridDataLength - 1; i++) {
             setTimeout(() => {
                 if (gridData[j].y > gridData[j + 1].y) {
@@ -143,6 +144,7 @@ class Navigation extends Component {
         let { gridData } = this.props;
         let { gridDataLength } = this.state;
         let j, currValue;
+        this.resetAllEvents();
         for (let i = 1; i < gridDataLength; i++) {
             setTimeout(() => {
                 currValue = gridData[i].y;
@@ -172,9 +174,10 @@ class Navigation extends Component {
         let tempGridData = JSON.parse(JSON.stringify(gridData));
         let { gridDataLength } = this.state;
         let i = 0, counter = 0;
+        this.resetAllEvents();
         while (i < gridDataLength) {
             counter++;
-            if (i == 0) { i++; }
+            if (i === 0) { i++; }
             if (tempGridData[i].y >= tempGridData[i - 1].y) {
                 i++;
             } else {
@@ -210,6 +213,44 @@ class Navigation extends Component {
         }
     }
 
+    submitNewExpression = (ev) => {
+        if (ev.key === 'Enter') {
+            this.handleNewExpression();
+        }
+    }
+
+    handleNewExpression = () => {
+        let { gridSize } = this.props;
+        const expressionStr = this.refs.newGraphRef.value;
+        const { newGraphRef } = this.refs;
+        const gridData = [];
+
+        try {
+            parse(expressionStr).evaluate({x: 1});
+        } catch {
+            console.log(`Invalid expression: ${expressionStr}`);
+            newGraphRef.style.border = '2px solid red';
+            return null;
+        }
+        const expression = parse(expressionStr);
+        this.resetAllEvents();
+        for (let i = 0; i < gridSize; i++) {
+            gridData.push({
+                x: i,
+                y: expression.evaluate({x: i}),
+                color: 0
+            });
+        }
+        this.props.setExpressionGraph(gridData);
+    }
+
+    handleSliderNewGrid = () => {
+        const {
+            isExpressionGraph
+         } = this.props;
+         isExpressionGraph ? this.handleNewExpression() : this.handleCreateNewGrid();
+    }
+
     resetAllEvents() {
         let highestTimeoutId = setTimeout(";");
         for (let i = 0 ; i < highestTimeoutId ; i++) {
@@ -218,9 +259,6 @@ class Navigation extends Component {
     }
 
     render() {
-        const {
-            gridSize
-        } = this.state;
         return(
             <NewContainer id="navbar">
                 <NewNavbar bg="light" expand="lg">
@@ -231,16 +269,26 @@ class Navigation extends Component {
                         <Nav.Link onClick={this.handleCreateNewGrid}>New</Nav.Link>
                         <Nav.Link onClick={this.handleResetGrid}>Reset</Nav.Link>
                         </Nav>
-                        <Slider createNewGrid={this.handleCreateNewGrid} />
-                        <NavDropdown title="Sorts" id="basic-nav-dropdown">
+                        <Slider createNewGrid={this.handleSliderNewGrid.bind(this)} />
+                        <NavDropdown title="Sorts">
                             <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
-                        <Form inline>
-                        <NewFormControl type="text" placeholder="F(x)=" className="size_ctrl" />
-                        <SubmitButton variant="outline-success" onClick={this.handleGridSizeChange}>Generate Graph</SubmitButton>
+                        <NavDropdown title="Type">
+                            <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
+                            <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
+                        </NavDropdown>
+                       
+                        <Form
+                            action="javascript:void(-1)"
+                            onKeyDown={this.submitNewExpression}
+                            inline>
+                        <NewFormControl type="text" placeholder="F(x)" ref="newGraphRef" className="size_ctrl" />
+                        <SubmitButton variant="outline-success" onClick={this.handleNewExpression}>Generate Graph</SubmitButton>
                         </Form>
                     </Navbar.Collapse>
                 </NewNavbar>
@@ -251,6 +299,11 @@ class Navigation extends Component {
 
 const NewFormControl = styled(FormControl)`
     font-family: cursive;
+    box-sizing: border-box;
+    :focus {
+        box-shadow: none;
+        outline: none;
+    }
 `;
 
 const NewContainer = styled(Container)`
@@ -269,7 +322,8 @@ const NewNavbar = styled(Navbar)`
 const mapStateToProps = store => {
     const gridData = getGridData(store);
     const gridSize = getGridSize(store);
-    return { gridData, gridSize };
+    const isExpressionGraph = getIsExpressionGraph(store);
+    return { gridData, gridSize, isExpressionGraph };
 }
 
 
@@ -287,4 +341,4 @@ const SubmitButton = styled(Button)`
     }
 `;
 
-export default connect(mapStateToProps, { changeGridSize, createNewGrid, setGridData })(Navigation);
+export default connect(mapStateToProps, { changeGridSize, createNewGrid, setGridData, setExpressionGraph })(Navigation);

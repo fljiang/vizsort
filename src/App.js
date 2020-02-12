@@ -40,7 +40,6 @@ const NewContainer = styled(Container)`
   max-width: 100%;
   padding: 0;
   margin: 0;
-  margin-left: -15px;
 `;
 
 const Grid = styled.div`

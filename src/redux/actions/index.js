@@ -5,6 +5,13 @@ export const changeGridSize = (gridSize) => {
     }
 }
 
+export const setExpressionGraph = (gridData) => {
+    return {
+        type: 'SET_EXPRESSION_GRAPH',
+        payload: gridData
+    }
+}
+
 export const createNewGrid = (gridData) => {
     return {
         type: 'CREATE_NEW_GRID',
