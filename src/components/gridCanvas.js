@@ -71,7 +71,7 @@ class GridCanvas extends Component {
 
         return (
             <Wrapper ref={this.gridWrap}>
-                <XYPlot stackBy="y" height={gridHeight} width={innerWidth} colorDomain={[0,1,2,3,4]}>
+                <XYPlot stackBy="y" height={gridHeight} width={innerWidth} colorType="category" colorDomain={[0,1,2]} colorRange={["royalblue", "orange", "purple"]}>
                     <VerticalBarSeries data={gridData} animation></VerticalBarSeries>
                 </XYPlot>
             </Wrapper>

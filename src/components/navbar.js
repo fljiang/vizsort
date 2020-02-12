@@ -88,7 +88,7 @@ class Navigation extends Component {
                 gridData = this.props.gridData;
                 for (j = i + 1; j < gridDataLength; j++) {
                     gridData = resetPlotColors(gridData);
-                    gridData[i].color = 4;
+                    gridData[i].color = 1;
                     currMin = gridData[i].y;
                     currMinIndex = i
                     if (gridData[j].y < currMin) {
@@ -120,7 +120,7 @@ class Navigation extends Component {
             setTimeout(() => {
                 if (gridData[j].y > gridData[j + 1].y) {
                     gridData = resetPlotColors(gridData);
-                    gridData[j].color = 4;
+                    gridData[j].color = 1;
                     gridData.splice(j + 1, 1);
                     for(let n = j + 1; n < gridDataLength - (i - j) - 1; n++) {
                         gridData[n].x--;
@@ -149,7 +149,7 @@ class Navigation extends Component {
                 for (j = i - 1; j >= 0 && currValue < gridData[j].y; j--) {
                     gridData[j + 1].y = gridData[j].y;
                     if (j + 1 === i) {
-                        gridData[i].color = 4;
+                        gridData[i].color = 1;
                     } else {
                         gridData[j + 1].color = 2;
                     }
@@ -189,7 +189,7 @@ class Navigation extends Component {
             setTimeout(() => {
                 gridData = resetPlotColors(gridData);
                 if (i > 0) {
-                    gridData[i].color = 4;
+                    gridData[i].color = 1;
                     gridData[i - 1].color = 2;
                     this.props.setGridData(gridData);
                     if (gridData[i].y < gridData[i - 1].y) {
