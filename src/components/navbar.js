@@ -328,13 +328,13 @@ const mapStateToProps = store => {
 
 
 const SubmitButton = styled(Button)`
-    color: #007bff;
+    color: #4169E1;
     margin-left: 5px;
-    border: 1px solid #007bff;
+    border: 1px solid #4169E1;
 
     &:hover, &:active, &:focus {
-        background-color: #007bff !important;
-        border: 1px solid #007bff !important;
+        background-color: #4169E1 !important;
+        border: 1px solid #4169E1 !important;
         box-shadow: none !important;
         outline: none;
 
