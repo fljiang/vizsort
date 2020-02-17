@@ -55,7 +55,7 @@ class Navigation extends Component {
     handleCreateNewGrid = () => {
         const { gridSize } = this.props;
         let newGridData = [];
-        
+
         for(let i = 0; i < gridSize; i++) {
             newGridData.push({
                 x: i,
@@ -209,7 +209,7 @@ class Navigation extends Component {
                     this.props.setGridData(gridData);
                 }
             }, 50 * j);
-            
+
         }
     }
 
@@ -254,7 +254,7 @@ class Navigation extends Component {
     resetAllEvents() {
         let highestTimeoutId = setTimeout(";");
         for (let i = 0 ; i < highestTimeoutId ; i++) {
-            clearTimeout(i); 
+            clearTimeout(i);
         }
     }
 
@@ -276,13 +276,7 @@ class Navigation extends Component {
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
                         </NavDropdown>
-                        <NavDropdown title="Type">
-                            <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
-                            <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
-                            <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
-                            <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
-                        </NavDropdown>
-                       
+
                         <Form
                             action="javascript:void(-1)"
                             onKeyDown={this.submitNewExpression}
