@@ -153,7 +153,7 @@ const Bar = styled.div`
     width: 9.5rem;
     height: 5px;
     border-radius: 2px;
-    background-color: #007bff;
+    background-color: royalblue;
 `;
 
 const Popup = styled.div`
