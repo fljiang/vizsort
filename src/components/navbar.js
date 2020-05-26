@@ -270,12 +270,12 @@ class Navigation extends Component {
                         <Nav.Link onClick={this.handleResetGrid}>Reset</Nav.Link>
                         </Nav>
                         <Slider createNewGrid={this.handleSliderNewGrid.bind(this)} />
-                        <NavDropdown title="Sorts">
+                        <StyledNavDropdown title="Sorts">
                             <NavDropdown.Item onClick={this.handleStalinsort}>Stalin Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleSelectionSort}>Selection Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleInsertionSort}>Insertion Sort</NavDropdown.Item>
                             <NavDropdown.Item onClick={this.handleGnomeSort}>Gnome Sort</NavDropdown.Item>
-                        </NavDropdown>
+                        </StyledNavDropdown>
 
                         <Form
                             action="javascript:void(-1)"
@@ -297,6 +297,12 @@ const NewFormControl = styled(FormControl)`
     :focus {
         box-shadow: none;
         outline: none;
+    }
+`;
+
+const StyledNavDropdown = styled(NavDropdown)`
+    a {
+        color: royalblue;
     }
 `;
 
