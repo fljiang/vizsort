@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/vizsort/static/css/main.619dfb29.chunk.css",
-    "main.js": "/vizsort/static/js/main.cc54014c.chunk.js",
-    "main.js.map": "/vizsort/static/js/main.cc54014c.chunk.js.map",
+    "main.js": "/vizsort/static/js/main.b5c0639a.chunk.js",
+    "main.js.map": "/vizsort/static/js/main.b5c0639a.chunk.js.map",
     "runtime-main.js": "/vizsort/static/js/runtime-main.8afec63c.js",
     "runtime-main.js.map": "/vizsort/static/js/runtime-main.8afec63c.js.map",
-    "static/js/2.1bf96e56.chunk.js": "/vizsort/static/js/2.1bf96e56.chunk.js",
-    "static/js/2.1bf96e56.chunk.js.map": "/vizsort/static/js/2.1bf96e56.chunk.js.map",
+    "static/js/2.3521547e.chunk.js": "/vizsort/static/js/2.3521547e.chunk.js",
+    "static/js/2.3521547e.chunk.js.map": "/vizsort/static/js/2.3521547e.chunk.js.map",
     "index.html": "/vizsort/index.html",
-    "precache-manifest.693a66ac45d257865b484601b9563890.js": "/vizsort/precache-manifest.693a66ac45d257865b484601b9563890.js",
+    "precache-manifest.8cb5fc1ea0c54fd28b58c56652380dce.js": "/vizsort/precache-manifest.8cb5fc1ea0c54fd28b58c56652380dce.js",
     "service-worker.js": "/vizsort/service-worker.js",
     "static/css/main.619dfb29.chunk.css.map": "/vizsort/static/css/main.619dfb29.chunk.css.map",
-    "static/js/2.1bf96e56.chunk.js.LICENSE.txt": "/vizsort/static/js/2.1bf96e56.chunk.js.LICENSE.txt"
+    "static/js/2.3521547e.chunk.js.LICENSE.txt": "/vizsort/static/js/2.3521547e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8afec63c.js",
-    "static/js/2.1bf96e56.chunk.js",
+    "static/js/2.3521547e.chunk.js",
     "static/css/main.619dfb29.chunk.css",
-    "static/js/main.cc54014c.chunk.js"
+    "static/js/main.b5c0639a.chunk.js"
   ]
 }
