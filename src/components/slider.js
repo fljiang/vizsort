@@ -35,7 +35,7 @@ class Slider extends Component {
             translateX: boundingWidth/2,
             lastTranslateX: boundingWidth/2
          });
-        
+
 
         // calculate initial X position here based on scale 5 - 50 x coords
     }
@@ -78,7 +78,7 @@ class Slider extends Component {
         if (translateX < 0) {
             translateX = 0;
         }
-        
+
         this.setState({ translateX });
     }
 
@@ -93,12 +93,12 @@ class Slider extends Component {
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
     }
-    
+
     handleGridSizeChange() {
         const barWidth = this.refs.barRef.clientWidth - 16;
         const { lastTranslateX, maxGridSize } = this.state;
         const newGridSize = Math.round(lastTranslateX/barWidth * maxGridSize);
-        
+
         this.props.changeGridSize(newGridSize > 2 ? newGridSize : 2);
         this.props.createNewGrid();
     }
@@ -125,7 +125,7 @@ class Slider extends Component {
                         ref="ballRef"
                         onMouseDown={this.handleMouseDown}
                         x={translateX}
-                        isDragging={isDragging}   
+                        isDragging={isDragging}
                     >
                         <Popup>{newGridSize}</Popup>
                     </Ball>
@@ -135,15 +135,10 @@ class Slider extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const gridSize = getGridSize(state);
-    return { gridSize };
-}
-
 const Container = styled.div`
     position: relative;
     width: 10rem;
-    height: 2rem; 
+    height: 2rem;
 `;
 
 const Bar = styled.div`
@@ -179,10 +174,15 @@ const Ball = styled.div.attrs({
     border-radius: 50%;
     background-color: #d3d3d3;
 
-    ${({ isDragging }) => 
+    ${({ isDragging }) =>
     isDragging && css`
         cursor: grabbing;
     `};
 `;
+
+const mapStateToProps = state => {
+  const gridSize = getGridSize(state);
+  return { gridSize };
+}
 
 export default connect(mapStateToProps, { changeGridSize })(Slider)

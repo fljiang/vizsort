@@ -2,17 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import {
-    HorizontalGridLines,
-    VerticalGridLines,
-    XAxis,
     XYPlot,
-    YAxis,
-    VerticalBarSeries,
-    Hint,
-    VerticalRectSeries,
-    MarkSeries,
-    LineMarkSeries,
-    LineSeries
+    VerticalBarSeries
 } from 'react-vis';
 
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';

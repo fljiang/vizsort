@@ -319,14 +319,6 @@ const NewNavbar = styled(Navbar)`
     border-bottom: 2px solid #eee;
 `;
 
-const mapStateToProps = store => {
-    const gridData = getGridData(store);
-    const gridSize = getGridSize(store);
-    const isExpressionGraph = getIsExpressionGraph(store);
-    return { gridData, gridSize, isExpressionGraph };
-}
-
-
 const SubmitButton = styled(Button)`
     color: royalblue;
     margin-left: 5px;
@@ -340,5 +332,12 @@ const SubmitButton = styled(Button)`
 
     }
 `;
+
+const mapStateToProps = state => {
+  const gridData = getGridData(state);
+  const gridSize = getGridSize(state);
+  const isExpressionGraph = getIsExpressionGraph(state);
+  return { gridData, gridSize, isExpressionGraph };
+}
 
 export default connect(mapStateToProps, { changeGridSize, createNewGrid, setGridData, setExpressionGraph })(Navigation);
