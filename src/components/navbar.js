@@ -1,22 +1,18 @@
-/* eslint-disable no-implied-eval */
-/* eslint-disable no-loop-func */
 import React, { Component } from 'react';
+import {
+  Container,
+  Button,
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  NavDropdown
+} from 'react-bootstrap';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { parse } from 'mathjs';
 import { getGridData, getGridSize, getIsExpressionGraph } from '../redux/selectors';
 import { changeGridSize, createNewGrid, setGridData, setExpressionGraph } from '../redux/actions';
-
-import {
-    Container,
-    Button,
-    Navbar,
-    Nav,
-    Form,
-    FormControl,
-    NavDropdown
-} from 'react-bootstrap';
-import styled from 'styled-components';
-
 import Slider from './slider';
 
 const resetPlotColors = (gridData) => {
@@ -61,7 +57,7 @@ class Navigation extends Component {
                 x: i,
                 y: Math.floor(Math.random() * 25) + 1,
                 color: 0
-            })
+            });
         }
         this.resetAllEvents();
         this.setState({
@@ -75,7 +71,7 @@ class Navigation extends Component {
         this.resetAllEvents();
         this.setState({
             gridDataLength: this.state.originalGridData.length
-        })
+        });
         this.props.setGridData(JSON.parse(JSON.stringify(this.state.originalGridData)));
     }
 
@@ -90,7 +86,7 @@ class Navigation extends Component {
                     gridData = resetPlotColors(gridData);
                     gridData[i].color = 1;
                     currMin = gridData[i].y;
-                    currMinIndex = i
+                    currMinIndex = i;
                     if (gridData[j].y < currMin) {
                         currMin = gridData[j].y;
                         currMinIndex = j;
@@ -287,7 +283,7 @@ class Navigation extends Component {
                     </Navbar.Collapse>
                 </NewNavbar>
             </NewContainer>
-        )
+        );
     }
 }
 
@@ -334,10 +330,10 @@ const SubmitButton = styled(Button)`
 `;
 
 const mapStateToProps = state => {
-  const gridData = getGridData(state);
-  const gridSize = getGridSize(state);
-  const isExpressionGraph = getIsExpressionGraph(state);
-  return { gridData, gridSize, isExpressionGraph };
+    const gridData = getGridData(state);
+    const gridSize = getGridSize(state);
+    const isExpressionGraph = getIsExpressionGraph(state);
+    return { gridData, gridSize, isExpressionGraph };
 }
 
 export default connect(mapStateToProps, { changeGridSize, createNewGrid, setGridData, setExpressionGraph })(Navigation);

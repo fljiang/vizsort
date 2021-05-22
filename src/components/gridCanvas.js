@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import {
     XYPlot,
     VerticalBarSeries
 } from 'react-vis';
-
+import styled from 'styled-components';
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
 
 class GridCanvas extends Component {
@@ -26,7 +25,6 @@ class GridCanvas extends Component {
         const {
             innerWidth,
             innerHeight
-        // } = this.gridWrap.current;
         } = window;
         const navbarHeight = document.getElementById('navbar').clientHeight;
         const { gridData, dataSwapPoints } = this.props;

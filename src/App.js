@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 import Navigation from './components/navbar';
 import GridCanvas from './components/gridCanvas';
-import { Container } from 'react-bootstrap';
 
 export default class App extends Component {
   constructor(props) {
@@ -43,11 +43,5 @@ const NewContainer = styled(Container)`
 `;
 
 const Grid = styled.div`
-  /* position: absolute;
-  width: 89.55%;
-  height: 80%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: .5rem 1rem; */
   background-color: white;
 `;

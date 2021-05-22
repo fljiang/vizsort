@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
+
+import styled, { css } from 'styled-components';
 import { getGridSize } from '../redux/selectors';
 import { changeGridSize } from '../redux/actions';
 
@@ -35,8 +36,6 @@ class Slider extends Component {
             translateX: boundingWidth/2,
             lastTranslateX: boundingWidth/2
          });
-
-
         // calculate initial X position here based on scale 5 - 50 x coords
     }
 
@@ -181,8 +180,8 @@ const Ball = styled.div.attrs({
 `;
 
 const mapStateToProps = state => {
-  const gridSize = getGridSize(state);
-  return { gridSize };
+    const gridSize = getGridSize(state);
+    return { gridSize };
 }
 
-export default connect(mapStateToProps, { changeGridSize })(Slider)
+export default connect(mapStateToProps, { changeGridSize })(Slider);
