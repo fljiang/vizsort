@@ -185,4 +185,4 @@ const mapStateToProps = state => {
   return { gridSize };
 }
 
-export default connect(mapStateToProps, { changeGridSize })(Slider)
+export default connect(mapStateToProps, { changeGridSize })(Slider);
