@@ -287,7 +287,7 @@ class Navigation extends Component {
                     </Navbar.Collapse>
                 </NewNavbar>
             </NewContainer>
-        )
+        );
     }
 }
 
