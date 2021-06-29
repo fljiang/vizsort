@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-    XYPlot,
-    VerticalBarSeries
-} from 'react-vis';
+import { XYPlot, VerticalBarSeries } from 'react-vis';
 import styled from 'styled-components';
 import { getGridData, getNumGridDataUpdated } from '../redux/selectors';
 

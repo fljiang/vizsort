@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import styled, { css } from 'styled-components';
 import { getGridSize } from '../redux/selectors';
 import { changeGridSize } from '../redux/actions';
@@ -10,12 +9,10 @@ class Slider extends Component {
         super(props);
         this.state = {
             isDragging: false,
-
             originalX: 0,
             translateX: 0,
             lastTranslateX: 0,
             boundingWidth: 0,
-
             maxGridSize: 50,
             currGridSize: 25,
         };
@@ -33,10 +30,9 @@ class Slider extends Component {
         this.setState({
             xPosition,
             boundingWidth,
-            translateX: boundingWidth/2,
-            lastTranslateX: boundingWidth/2
+            translateX: boundingWidth / 2,
+            lastTranslateX: boundingWidth / 2
          });
-        // calculate initial X position here based on scale 5 - 50 x coords
     }
 
     componentWillUnmount() {
@@ -46,11 +42,8 @@ class Slider extends Component {
 
     handleMouseDown(ev) {
         let { clientX } = ev;
-        // mousemove: obtain cursor position
-        // mouseup: save position for the element
         window.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('mouseup', this.handleMouseUp);
-
         this.setState({
           originalX: clientX,
           isDragging: true
@@ -66,18 +59,15 @@ class Slider extends Component {
             lastTranslateX,
          } = this.state;
         let translateX = clientX - originalX + lastTranslateX;
-
         if (!isDragging) {
             return;
         }
-
         if (translateX > boundingWidth) {
             translateX = boundingWidth;
         }
         if (translateX < 0) {
             translateX = 0;
         }
-
         this.setState({ translateX });
     }
 
@@ -87,7 +77,6 @@ class Slider extends Component {
             lastTranslateX: this.state.translateX,
             isDragging: false
         });
-
         this.handleGridSizeChange();
         window.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('mouseup', this.handleMouseUp);
@@ -97,7 +86,6 @@ class Slider extends Component {
         const barWidth = this.refs.barRef.clientWidth - 16;
         const { lastTranslateX, maxGridSize } = this.state;
         const newGridSize = Math.round(lastTranslateX/barWidth * maxGridSize);
-
         this.props.changeGridSize(newGridSize > 2 ? newGridSize : 2);
         this.props.createNewGrid();
     }
@@ -117,9 +105,7 @@ class Slider extends Component {
 
         return (
             <Container>
-                <Bar
-                    ref="barRef"
-                >
+                <Bar ref="barRef">
                     <Ball
                         ref="ballRef"
                         onMouseDown={this.handleMouseDown}
@@ -172,7 +158,6 @@ const Ball = styled.div.attrs({
     height: 1rem;
     border-radius: 50%;
     background-color: #d3d3d3;
-
     ${({ isDragging }) =>
     isDragging && css`
         cursor: grabbing;
