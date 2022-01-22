@@ -1,1 +1,1 @@
-Visualizes common sorting algorithms
+# Vizsort
