@@ -172,7 +172,7 @@ class Navigation extends Component {
         }
     }
 
-    handleStalinsort = () => {
+    handleStalinSort = () => {
         let { gridData } = this.props;
         let { gridDataLength } = this.state;
         let j = 0;
